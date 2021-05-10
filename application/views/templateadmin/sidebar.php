@@ -105,6 +105,24 @@
   				</li>
   				<li class="nav-item has-treeview">
   					<a href="<?php echo base_url() . 'administrator/customer'; ?>" class="nav-link">
+  						<i class="nav-icon fas fa-sticky-note"></i>
+  						<p>
+  							General Ledger
+  							<i class="fas fa-angle-left right"></i>
+  						</p>
+  					</a>
+
+  					<ul class="nav nav-treeview">
+  						<li class="nav-item">
+  							<a href="<?php echo base_url() . 'administrator/gr'; ?>" class="nav-link">
+  								<i class="far fa-circle nav-icon"></i>
+  								<p>GR Input</p>
+  							</a>
+  						</li>
+  					</ul>
+  				</li>
+  				<li class="nav-item has-treeview">
+  					<a href="<?php echo base_url() . 'administrator/customer'; ?>" class="nav-link">
   						<i class="nav-icon fas fa-book"></i>
   						<p>
   							Report
