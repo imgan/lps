@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require 'vendor/autoload.php';
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -40,15 +41,16 @@ class Report extends CI_Controller
 			$akhir = $this->input->post('akhir');
 			$filename = "LeadTime_Report-$awal-$akhir.xlsx";
 			$data = $this->model_report->getAllStatus($awal, $akhir)->result_array();
+
 			if ($data != null) {
 				$spreadsheet = new Spreadsheet();
 				$spreadsheet->getActiveSheet(0)->mergeCells('A1:A3');
 				$spreadsheet->getActiveSheet(0)->mergeCells('B1:B3');
 				$spreadsheet->getActiveSheet(0)->mergeCells('C1:C3');
 				$spreadsheet->getActiveSheet(0)->mergeCells('D1:G1');
-				$spreadsheet->getActiveSheet()->getStyle('D1:G1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
-				$spreadsheet->getActiveSheet()->getStyle('D2:G2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
-				$spreadsheet->getActiveSheet()->getStyle('D3:G3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+				$spreadsheet->getActiveSheet(0)->mergeCells('AJ1:AM1');
+				$spreadsheet->getActiveSheet(0)->mergeCells('AJ2:AM2');
+
 
 				$spreadsheet->getActiveSheet(0)->mergeCells('D2:G2');
 				$spreadsheet->getActiveSheet(0)->setCellValue('A1', 'No');
@@ -70,9 +72,7 @@ class Report extends CI_Controller
 				$spreadsheet->getActiveSheet(0)->setCellValue('G3', 'Duration (Days)');
 
 				$spreadsheet->getActiveSheet(0)->mergeCells('H1:K1');
-				$spreadsheet->getActiveSheet()->getStyle('H1:K3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
-				$spreadsheet->getActiveSheet()->getStyle('H2:K2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
-				$spreadsheet->getActiveSheet()->getStyle('H3:K3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
+
 
 				$spreadsheet->getActiveSheet(0)->mergeCells('H2:K2');
 				$spreadsheet->getActiveSheet(0)->setCellValue('H1', 'Budget Request');
@@ -88,9 +88,7 @@ class Report extends CI_Controller
 				$spreadsheet->getActiveSheet(0)->setCellValue('K3', 'Duration (Days)');
 
 				$spreadsheet->getActiveSheet(0)->mergeCells('L1:O1');
-				$spreadsheet->getActiveSheet()->getStyle('L1:O1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('3333FF');
-				$spreadsheet->getActiveSheet()->getStyle('L2:O2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('3333FF');
-				$spreadsheet->getActiveSheet()->getStyle('L3:O3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('3333FF');
+				// 
 				$spreadsheet->getActiveSheet(0)->mergeCells('L2:O2');
 				$spreadsheet->getActiveSheet(0)->setCellValue('L1', 'E-Workflow Approval');
 				$spreadsheet->getActiveSheet(0)->getStyle('L1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
@@ -108,9 +106,26 @@ class Report extends CI_Controller
 				$spreadsheet->getActiveSheet(0)->mergeCells('P1:S1');
 				$spreadsheet->getActiveSheet(0)->mergeCells('P2:S2');
 				$spreadsheet->getActiveSheet(0)->setCellValue('P1', 'Register Item');
-				$spreadsheet->getActiveSheet()->getStyle('P1:S1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
-				$spreadsheet->getActiveSheet()->getStyle('P2:S2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
-				$spreadsheet->getActiveSheet()->getStyle('P3:S3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+
+				// $spreadsheet->getActiveSheet()->getStyle('D1:G1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+				// $spreadsheet->getActiveSheet()->getStyle('D2:G2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+				// $spreadsheet->getActiveSheet()->getStyle('D3:G3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+				// $spreadsheet->getActiveSheet()->getStyle('L1:O1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F5F5DC');
+				// $spreadsheet->getActiveSheet()->getStyle('H1:K3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
+				// $spreadsheet->getActiveSheet()->getStyle('H2:K2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
+				// $spreadsheet->getActiveSheet()->getStyle('H3:K3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
+				// $spreadsheet->getActiveSheet()->getStyle('L2:O2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F5F5DC');
+				// $spreadsheet->getActiveSheet()->getStyle('L3:O3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F5F5DC');
+				// $spreadsheet->getActiveSheet()->getStyle('P1:S1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+				// $spreadsheet->getActiveSheet()->getStyle('P2:S2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+				// $spreadsheet->getActiveSheet()->getStyle('P3:S3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+				// $spreadsheet->getActiveSheet()->getStyle('T1:W1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
+				// $spreadsheet->getActiveSheet()->getStyle('T2:W2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
+				// $spreadsheet->getActiveSheet()->getStyle('T3:W3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
+				// $spreadsheet->getActiveSheet()->getStyle('X1:AI1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFFF');
+				// $spreadsheet->getActiveSheet()->getStyle('X2:AI2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFFF');
+				// $spreadsheet->getActiveSheet()->getStyle('X3:AI3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFFF');
+
 				$spreadsheet->getActiveSheet(0)->getStyle('P1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
 				$spreadsheet->getActiveSheet(0)->setCellValue('P2', 'STD L/T (0-3)');
@@ -124,9 +139,7 @@ class Report extends CI_Controller
 				$spreadsheet->getActiveSheet(0)->mergeCells('T1:W1');
 				$spreadsheet->getActiveSheet(0)->mergeCells('T2:W2');
 				$spreadsheet->getActiveSheet(0)->setCellValue('T1', 'Buyer Transfer');
-				$spreadsheet->getActiveSheet()->getStyle('T1:W1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
-				$spreadsheet->getActiveSheet()->getStyle('T2:W2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
-				$spreadsheet->getActiveSheet()->getStyle('T3:W3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
+
 				$spreadsheet->getActiveSheet(0)->getStyle('T1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
 				$spreadsheet->getActiveSheet(0)->setCellValue('T2', 'STD L/T (0-5)');
@@ -141,9 +154,7 @@ class Report extends CI_Controller
 				$spreadsheet->getActiveSheet(0)->mergeCells('X2:AA2');
 				$spreadsheet->getActiveSheet(0)->mergeCells('AB2:AE2');
 				$spreadsheet->getActiveSheet(0)->mergeCells('AF2:AI2');
-				$spreadsheet->getActiveSheet()->getStyle('X1:AI1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFFF');
-				$spreadsheet->getActiveSheet()->getStyle('X2:AI2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFFF');
-				$spreadsheet->getActiveSheet()->getStyle('X3:AI3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFFF');
+
 				$spreadsheet->getActiveSheet(0)->setCellValue('X1', 'IPPS Input');
 				$spreadsheet->getActiveSheet(0)->getStyle('X1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
@@ -171,6 +182,16 @@ class Report extends CI_Controller
 				$spreadsheet->getActiveSheet(0)->setCellValue('AG3', 'Start');
 				$spreadsheet->getActiveSheet(0)->setCellValue('AH3', 'Finish');
 				$spreadsheet->getActiveSheet(0)->setCellValue('AI3', 'Duration (Days)');
+
+				$spreadsheet->getActiveSheet(0)->setCellValue('AJ1', 'Goods Receiving');
+				$spreadsheet->getActiveSheet(0)->getStyle('AJ2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+				$spreadsheet->getActiveSheet(0)->getStyle('AJ1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+				$spreadsheet->getActiveSheet(0)->setCellValue('AJ2', 'STD L/T (0-5)');
+				$spreadsheet->getActiveSheet(0)->setCellValue('AJ3', 'No');
+				$spreadsheet->getActiveSheet(0)->setCellValue('AK3', 'Start');
+				$spreadsheet->getActiveSheet(0)->setCellValue('AL3', 'Finish');
+				$spreadsheet->getActiveSheet(0)->setCellValue('AM3', 'Duration (Days)');
 				$no = 1;
 				$x = 4;
 				foreach ($data as $value) {
@@ -181,47 +202,51 @@ class Report extends CI_Controller
 					$spreadsheet->getActiveSheet(0)->setCellValue('E' . $x, $value['StartReq']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('F' . $x, $value['EndReq']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('G' . $x, $value['Duration1']);
-					$spreadsheet->getActiveSheet()->getStyle('D'. $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
-					$spreadsheet->getActiveSheet()->getStyle('E'. $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
-					$spreadsheet->getActiveSheet()->getStyle('F'. $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
-					$spreadsheet->getActiveSheet()->getStyle('G'. $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+
 
 
 					$spreadsheet->getActiveSheet(0)->setCellValue('H' . $x, $value['BudgetId']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('I' . $x, $value['StartReq2']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('J' . $x, $value['EndedAt2']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('K' . $x, $value['Duration2']);
-					$spreadsheet->getActiveSheet()->getStyle('H'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
-					$spreadsheet->getActiveSheet()->getStyle('I'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
-					$spreadsheet->getActiveSheet()->getStyle('J'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
-					$spreadsheet->getActiveSheet()->getStyle('K'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
-					
+					// $spreadsheet->getActiveSheet()->getStyle('H'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
+					// $spreadsheet->getActiveSheet()->getStyle('I'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
+					// $spreadsheet->getActiveSheet()->getStyle('J'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
+					// $spreadsheet->getActiveSheet()->getStyle('K'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33FFFF');
+					// $spreadsheet->getActiveSheet()->getStyle('D'. $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+					// $spreadsheet->getActiveSheet()->getStyle('E'. $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+					// $spreadsheet->getActiveSheet()->getStyle('F'. $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+					// $spreadsheet->getActiveSheet()->getStyle('G'. $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF7F');
+					// $spreadsheet->getActiveSheet()->getStyle('L'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F5F5DC');
+					// $spreadsheet->getActiveSheet()->getStyle('M'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F5F5DC');
+					// $spreadsheet->getActiveSheet()->getStyle('N'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F5F5DC');
+					// $spreadsheet->getActiveSheet()->getStyle('O'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('F5F5DC');
+					// $spreadsheet->getActiveSheet()->getStyle('P'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+					// $spreadsheet->getActiveSheet()->getStyle('Q'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+					// $spreadsheet->getActiveSheet()->getStyle('R'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+					// $spreadsheet->getActiveSheet()->getStyle('S'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+					// $spreadsheet->getActiveSheet()->getStyle('T'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
+					// $spreadsheet->getActiveSheet()->getStyle('U'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
+					// $spreadsheet->getActiveSheet()->getStyle('V'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
+					// $spreadsheet->getActiveSheet()->getStyle('W'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
+
+
 					$spreadsheet->getActiveSheet(0)->setCellValue('L' . $x, $value['EwfNo']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('M' . $x, $value['StartRe3']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('N' . $x, $value['EndReq3']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('O' . $x, $value['Duration3']);
-					$spreadsheet->getActiveSheet()->getStyle('L'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('3333FF');
-					$spreadsheet->getActiveSheet()->getStyle('M'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('3333FF');
-					$spreadsheet->getActiveSheet()->getStyle('N'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('3333FF');
-					$spreadsheet->getActiveSheet()->getStyle('O'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('3333FF');
+
 
 					$spreadsheet->getActiveSheet(0)->setCellValue('P' . $x, $value['RegId']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('Q' . $x, $value['StartReq4']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('R' . $x, $value['EndReq4']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('S' . $x, $value['Duration4']);
-					$spreadsheet->getActiveSheet()->getStyle('P'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
-					$spreadsheet->getActiveSheet()->getStyle('Q'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
-					$spreadsheet->getActiveSheet()->getStyle('R'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
-					$spreadsheet->getActiveSheet()->getStyle('S'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00FF00');
+
 
 					$spreadsheet->getActiveSheet(0)->setCellValue('T' . $x, $value['BuyerId']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('U' . $x, $value['StartReq5']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('V' . $x, $value['EndReq5']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('W' . $x, $value['Duration5']);
-					$spreadsheet->getActiveSheet()->getStyle('T'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
-					$spreadsheet->getActiveSheet()->getStyle('U'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
-					$spreadsheet->getActiveSheet()->getStyle('V'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
-					$spreadsheet->getActiveSheet()->getStyle('W'.$x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('CCFFCC');
 
 					$spreadsheet->getActiveSheet(0)->setCellValue('X' . $x, $value['LopNo']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('Y' . $x, $value['StartReq6']);
@@ -237,6 +262,16 @@ class Report extends CI_Controller
 					$spreadsheet->getActiveSheet(0)->setCellValue('AG' . $x, $value['StartReq8']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('AH' . $x, $value['EndReq8']);
 					$spreadsheet->getActiveSheet(0)->setCellValue('AI' . $x, $value['Duration8']);
+
+					$spreadsheet->getActiveSheet(0)->setCellValue('AF' . $x, $value['PoNo']);
+					$spreadsheet->getActiveSheet(0)->setCellValue('AG' . $x, $value['StartReq8']);
+					$spreadsheet->getActiveSheet(0)->setCellValue('AH' . $x, $value['EndReq8']);
+					$spreadsheet->getActiveSheet(0)->setCellValue('AI' . $x, $value['Duration8']);
+
+					$spreadsheet->getActiveSheet(0)->setCellValue('AJ' . $x, $value['GrNo']);
+					$spreadsheet->getActiveSheet(0)->setCellValue('AK' . $x, $value['StartReq9']);
+					$spreadsheet->getActiveSheet(0)->setCellValue('AL' . $x, $value['EndReq9']);
+					$spreadsheet->getActiveSheet(0)->setCellValue('AM' . $x, $value['Duration9']);
 					$x++;
 				}
 

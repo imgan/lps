@@ -182,22 +182,22 @@
                     var button = '';
                     if (data[i].ReqStatus == 1) {
                         button = '<td class="text-center">' +
-                            '   <button  class="btn btn-danger btn-sm item_non"  data-id="' + data[i].PrId + '">' +
+                            '   <button  class="btn btn-danger btn-sm item_non"  data-id="' + data[i].GrId + '">' +
                             '      <i class="fas fa-stop"> </i>  Stop </button>' +
                             '</a> &nbsp' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> Process PR Input .. </span></td>';
+                        status = '<td class="project-state"><span class="badge badge-info"> Processing GR Input .. </span></td>';
                     } else {
                         button = '<td class="text-center">' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-success"> Finish PR.. </span></td>';
+                        status = '<td class="project-state"><span class="badge badge-success"> Finish GR.. </span></td>';
                     }
 
                     html += '<tr>' +
                         '<td class="text-left">' + no + '</td>' +
                         '<td class="text-left">' + data[i].ReqNos + '</td>' +
-                        '<td class="text-left">' + data[i].LopNos + '</td>' +
-                        '<td class="text-left">' + data[i].Prno + '</td>' +
+                        '<td class="text-left">' + data[i].GrNo + '</td>' +
+                        '<td class="text-left">' + data[i].Ponos + '</td>' +
                         '<td class="text-left">' + data[i].StartedAt + '</td>' +
                         '<td class="text-left">' + data[i].EndedAt + '</td>' +
                         status +
@@ -223,11 +223,11 @@
         });
     }
 
-    $("#lop").change(function() {
-        var id = $('#lop').val();
+    $("#po").change(function() {
+        var id = $('#po').val();
         $.ajax({
             type: "POST",
-            url: "<?php echo base_url('administrator/pr/showreqno') ?>",
+            url: "<?php echo base_url('administrator/gr/showreqno') ?>",
             data: {
                 id: id
             }
@@ -251,7 +251,7 @@
             if (result.value) {
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo base_url('administrator/gr/nonaktif') ?>",
+                    url: "<?php echo base_url('administrator/gr/stop') ?>",
                     async: true,
                     dataType: "JSON",
                     data: {

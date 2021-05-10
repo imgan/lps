@@ -36,7 +36,7 @@ class Model_report extends CI_model
 
     public function getAllStatus($awal, $akhir)
     {
-        return $this->db->query('SELECT a.ReqNo,aa.StartedAt as StartReq , aa.EndedAt as EndReq ,
+        return $this->db->query("SELECT a.ReqNo,aa.StartedAt as StartReq , aa.EndedAt as EndReq ,
         DATEDIFF(DAY, aa.StartedAt, aa.EndedAt) as Duration1, b.Name , 
         c.BudgetId, c.StartedAt as StartReq2, c.EndedAt as EndedAt2,
         DATEDIFF(DAY, c.StartedAt, c.EndedAt) as Duration2 ,
@@ -51,8 +51,10 @@ class Model_report extends CI_model
          h.PrNo,h.StartedAt as StartReq7 , h.EndedAt as EndReq7 ,
 		 DATEDIFF(DAY, h.StartedAt, h.EndedAt) as Duration7,
          i.PoNo,i.StartedAt as StartReq8 , i.EndedAt as EndReq8 ,
-		 DATEDIFF(DAY, i.StartedAt, i.EndedAt) as Duration8
-        from "TxRequest" a 
+		 DATEDIFF(DAY, i.StartedAt, i.EndedAt) as Duration8,
+         j.GrNo,j.StartedAt as StartReq9 , j.EndedAt as EndReq9 ,
+		 DATEDIFF(DAY, j.StartedAt, j.EndedAt) as Duration9
+        from TxRequest a 
         JOIN TxQuotation aa on a.ReqId = aa.ReqNo
         JOIN Department b ON a.Department = b.Id
          JOIN TxBudget c ON a.ReqId = c.ReqNo
@@ -62,7 +64,9 @@ class Model_report extends CI_model
          JOIN TxLop g on a.ReqId = g.ReqNo
          JOIN TxPr h on a.ReqId = h.ReqNo
          JOIN TxPo i on a.ReqId = i.ReqNo
-         ');
+         JOIN TxGr j on a.ReqId = j.ReqNo
+         where a.CreatedAt between '".$awal."' and '".$akhir."'
+         ");
     }
 
     function update($where, $data, $table)

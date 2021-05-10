@@ -16,15 +16,15 @@ class Model_gr extends CI_model
 
     public function viewOrderingCustomV2()
     {
-        return $this->db->query('Select a.*, b.ReqNo as ReqNos, c.Prno as Prnos,d.LopNo as LopNos from "TxPo" a 
+        return $this->db->query('Select a.*, b.ReqNo as ReqNos, c.PoNo as Ponos from "TxGr" a 
         JOIN TxRequest b on a.ReqNo = b.ReqId
-        LEFT JOIN TxPr c on a.PrNo = c.PrId
-        LEFT JOIN TxLop d on c.LopId = d.LopId ');
+        LEFT JOIN Txpo c on a.PoNo = c.PoId
+        ');
     }
 
     public function viewWhereCustomLop($id)
     {
-        return $this->db->query('Select ReqNo from "TxPr" where PrId = '.$id.'');
+        return $this->db->query('Select ReqNo from "TxPo" where PoId = '.$id.'');
     }
 	public function viewWhere($table, $data)
     {
@@ -34,7 +34,7 @@ class Model_gr extends CI_model
 	
 	public function checkDuplicate($data, $table)
     {
-        $this->db->where('LopId',$data['LopId']);
+        $this->db->where('GrNo',$data['LopId']);
         return $this->db->get($table)->num_rows();
     }
 
