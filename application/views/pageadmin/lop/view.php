@@ -121,7 +121,6 @@
     </div>
     <!-- /.card -->
 </section>
-
 <script type="text/javascript">
     if ($("#formTambah").length > 0) {
         $("#formTambah").validate({
@@ -286,6 +285,19 @@
             }
         })
     })
+
+    $("#reqno").change(function() {
+		var id = $('#reqno').val();
+		$.ajax({
+			type: "POST",
+			url: "<?php echo base_url('administrator/lop/showreqno') ?>",
+			data: {
+				id: id
+			}
+		}).done(function(data) {
+			$("#reqno").val(data);
+		});
+	});
 
     $('#show_data').on('click', '.item_approve', function() {
         var id = $(this).data('id');

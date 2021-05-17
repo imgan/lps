@@ -388,16 +388,8 @@
                     } else if (data[i].ReqStatus == 12) {
                         button = '<td class="project-actions text-left">' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> IPPS Input .. </span></td>'
-                    } else if (data[i].ReqStatus == 13) {
-                        button = '<td class="project-actions text-left">' +
-                            '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> IPPS Input .. </span></td>'
-                    } else if (data[i].ReqStatus == 14) {
-                        button = '<td class="project-actions text-left">' +
-                            '</td>';
-                        status = '<td class="project-state"><span class="badge badge-success"> Selesai .. </span></td>'
-                    }
+                        status = '<td class="project-state"><span class="badge badge-info"> Finish .. </span></td>'
+                    } 
 
                     html += '<tr>' +
                         '<td class="text-left">' + no + '</td>' +

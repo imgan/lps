@@ -8,6 +8,11 @@ class Model_lop extends CI_model
         return $this->db->get($table);
     }
 
+    public function viewWhereCustomLop($id)
+    {
+        return $this->db->query('Select ReqNo from "TxRequest" where ReqId = '.$id.'');
+    }
+    
     public function viewOrderingCustom($table, $order, $ordering)
     {
         $this->db->where('EndedAt !=',  null);

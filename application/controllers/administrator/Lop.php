@@ -107,7 +107,6 @@ class Lop extends CI_Controller
 		}
 	}
 
-
 	public function simpan()
 	{
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
@@ -126,6 +125,7 @@ class Lop extends CI_Controller
 				echo json_encode(401);
 			} else {
 				$action = $this->model_lop->insert($data, 'TxLop');
+			
 				echo json_encode($action);
 			}
 		

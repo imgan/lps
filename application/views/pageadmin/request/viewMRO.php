@@ -306,13 +306,19 @@
                         button = '<td class="project-actions">' +
                             '   <button  class="btn btn-success btn-sm item_start"  data-id="' + data[i].ReqId + '">' +
                             '      <i class="fas fa-play"> </i>  Start </button>' +
+                            '   <button  class="btn btn-danger btn-sm item_hapus"  data-id="' + data[i].ReqId + '">' +
+                            '      <i class="fas fa-trash"> </i>  Hapus </a>' +
+                            '</button> ' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-warning"> Pending.. </span></td>'
+                        status = '<td class="project-state"><span class="badge badge-warning"> Waiting for pickup.. </span></td>'
                     } else if (data[i].ReqStatus == 2) {
                         button = '<td class="project-actions text-left">' +
                             '   <button  class="btn btn-danger btn-sm item_stop"  data-id="' + data[i].ReqId + '">' +
                             '      <i class="fas fa-stop"> </i>  Stop </button>' +
-                            '</button> &nbsp' +
+                            '</button>' +
+                            '   <button  class="btn btn-danger btn-sm item_hapus"  data-id="' + data[i].ReqId + '">' +
+                            '      <i class="fas fa-trash"> </i>  Hapus </a>' +
+                            '</button> ' +
                             '</td>';
                         status = '<td class="project-state"><span class="badge badge-info"> Processing.. </span></td>'
                     } else if (data[i].ReqStatus == 3) {
@@ -322,19 +328,22 @@
                     } else if (data[i].ReqStatus == 4) {
                         button = '<td class="project-actions text-left">' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> Finding Budget.. </span></td>'
+                        status = '<td class="project-state"><span class="badge badge-warning"> Finding Budget.. </span></td>'
                     } else if (data[i].ReqStatus == 5) {
                         button = '<td class="project-actions text-left">' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> E-Workflow .. </span></td>'
+                        status = '<td class="project-state"><span class="badge badge-warning"> Processing E-Workflow .. </span></td>'
                     } else if (data[i].ReqStatus == 6) {
                         button = '<td class="project-actions text-left">' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> Processing E-Workflow .. </span></td>'
+                        status = '<td class="project-state"><span class="badge badge-warning"> Processing E-Workflow .. </span></td>'
                     } else if (data[i].ReqStatus == 7) {
                         button = '<td class="project-actions text-left">' +
-                            '   <button  class="btn btn-success btn-sm item_start_item"  data-id="' + data[i].ReqId + '">' +
-                            '      <i class="fas fa-play"> </i>  Start Register Item </a>' +
+                            '   <button  class="btn btn-info btn-sm item_start_item"  data-id="' + data[i].ReqId + '">' +
+                            '      <i class="fas fa-play"> </i>  Start Register Item </a> </button> &nbsp;' +
+                            '   <button  class="btn btn-danger btn-sm item_hapus"  data-id="' + data[i].ReqId + '">' +
+                            '      <i class="fas fa-trash"> </i>  Hapus </a>' +
+                            '</button> ' +
                             '</td>';
                         status = '<td class="project-state"><span class="badge badge-info"> Register Item .. </span></td>'
                     } else if (data[i].ReqStatus == 8) {
@@ -342,13 +351,16 @@
                             '   <button  class="btn btn-danger btn-sm item_stop_item"  data-id="' + data[i].ReqId + '">' +
                             '      <i class="fas fa-stop"> </i>  Stop Register Item </a>' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> Registering Item .. </span></td>'
+                        status = '<td class="project-state"><span class="badge badge-warning"> Registering Item .. </span></td>'
                     } else if (data[i].ReqStatus == 9) {
                         button = '<td class="project-actions text-left">' +
-                            '   <button  class="btn btn-success btn-sm item_start_buyer"  data-id="' + data[i].ReqId + '">' +
-                            '      <i class="fas fa-play"> </i>  Start Finding Buyer </a>' +
+                            '   <button  class="btn btn-warning btn-sm item_start_buyer"  data-id="' + data[i].ReqId + '">' +
+                            '      <i class="fas fa-play"> </i>  Start Finding Buyer </a> </button>' +
+                            '   <button  class="btn btn-danger btn-sm item_hapus"  data-id="' + data[i].ReqId + '">' +
+                            '      <i class="fas fa-trash"> </i>  Hapus </a>' +
+                            '</button> ' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> Finding Buyer .. </span></td>'
+                        status = '<td class="project-state"><span class="badge badge-warning"> Finding Buyer .. </span></td>'
                     } else if (data[i].ReqStatus == 10) {
                         button = '<td class="project-actions text-left">' +
                             '   <button  class="btn btn-danger btn-sm item_stop_buyer"  data-id="' + data[i].ReqId + '">' +
@@ -356,8 +368,12 @@
                             '</td>';
                         status = '<td class="project-state"><span class="badge badge-info"> Finding Buyer .. </span></td>'
                     } else if (data[i].ReqStatus == 11) {
-                        button = '<td class="project-state"><a href="<?php echo base_url()."administrator/lop"; ?>"> Start IPPS </td>'
-                            status = '<td class="project-state"><span class="badge badge-success"> Selesai .. </span></td>'
+                        button = '<td class="project-actions text-left"><a class="btn btn-info btn-sm" href="<?php echo base_url() . "administrator/lop"; ?>"> Start IPPS </td>'
+                        status = '<td class="project-state"><span class="badge badge-info"> IPPS Input .. </span></td>'
+                    } else if (data[i].ReqStatus == 12) {
+                        button = '<td class="project-actions text-left">' +
+                            '</td>';
+                        status = '<td class="project-state"><span class="badge badge-success"> Finish .. </span></td>'
                     }
 
                     html += '<tr>' +
@@ -388,8 +404,8 @@
         });
     }
 
-      //get data for update record
-      $('#show_data').on('click', '.item_start_ipps', function() {
+    //get data for update record
+    $('#show_data').on('click', '.item_start_ipps', function() {
         document.getElementById("formEdit").reset();
         var id = $(this).data('id');
         $('#modalEdit').modal('show');
@@ -406,7 +422,7 @@
                 $('#e_nama').val(data[0].ReqNo);
                 $('#e_desc').val(data[0].ReqDesc);
                 $('#e_department').val(data[0].Department).select2();
-                
+
             }
         });
     });

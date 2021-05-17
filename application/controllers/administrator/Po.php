@@ -54,6 +54,26 @@ class Po extends CI_Controller
 				'EndedAt'  =>  date('Y-m-d H:i:s'),
 			);
 			$action = $this->model_po->update($data_id, $data, 'TxPo');
+			$id = $this->input->post('id');
+			$reqno = $this->db->query("Select ReqNo from TxPo where PoId = $id ")->result_array();
+			if ($reqno) {
+				$reqno = $reqno[0]['ReqNo'];
+				$total = $this->db->query("select count(*) as total from TxPo where ReqNo = $reqno ")->result_array();
+				$totalApprove = $this->db->query("select count(*) as total from TxPo where ReqNo = $reqno and EndedAt IS NOT NULL")->result_array();
+				if ($total == $totalApprove) {
+					$data_id2 = array(
+						'ReqId'  => $reqno
+					);
+					$data2 = array(
+						'ReqStatus'  => 12,
+						'UpdatedAt'  => date('Y-m-d H:i:s'),
+						'UpdatedBy'  => $this->session->userdata('Nik'),
+					);
+
+					$this->model_po->update($data_id2, $data2, 'TxRequest');
+				}
+			}
+
 			echo json_encode($action);
 		} else {
 			$this->load->view('pageadmin/login'); //Memanggil function render_view
@@ -121,8 +141,8 @@ class Po extends CI_Controller
 
 			$data = array(
 				'PoNo'  => $this->input->post('po'),
-                'PrNo'  => $this->input->post('pr'),
-                'ReqNo'  => $this->input->post('reqno'),
+				'PrNo'  => $this->input->post('pr'),
+				'ReqNo'  => $this->input->post('reqno'),
 				'ReqStatus'  => 1,
 				'CreatedAt' => date('Y-m-d H:i:s'),
 				'StartedAt' => date('Y-m-d H:i:s'),

@@ -43,6 +43,7 @@ class Pr extends CI_Controller
 	public function nonaktif()
 	{
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
+			
 
 			$data_id = array(
 				'PrId'  => $this->input->post('id')

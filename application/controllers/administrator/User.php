@@ -38,7 +38,7 @@ class User extends CI_Controller
 	public function tampil()
 	{
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
-			$my_data = $this->model_user->viewOrdering('User', 'IdUser', 'desc')->result_array();
+			$my_data = $this->model_user->viewOrdering('Users', 'IdUser', 'desc')->result_array();
 			echo json_encode($my_data);
 		} else {
 			$this->load->view('pageadmin/login'); //Memanggil function render_view
@@ -52,7 +52,7 @@ class User extends CI_Controller
 			$data = array(
 				'id'  => $this->input->post('id'),
 			);
-			$my_data = $this->model_user->viewWhere('user', $data)->result();
+			$my_data = $this->model_user->viewWhere('users', $data)->result();
 			echo json_encode($my_data);
 		} else {
 			$this->load->view('pageadmin/login'); //Memanggil function render_view
@@ -80,7 +80,7 @@ class User extends CI_Controller
 					'UpdatedAt' => date('Y-m-d H:i:s'),
 					'UpdatedBy'	=> $this->session->userdata('name')
 				);
-				$action = $this->model_user->update($data_id, $data, 'user');
+				$action = $this->model_user->update($data_id, $data, 'users');
 				echo json_encode($action);
 			} else {
 				if ($password == $password2) {
@@ -93,7 +93,7 @@ class User extends CI_Controller
 						'UpdatedAt' => date('Y-m-d H:i:s'),
 						'UpdatedBy'	=> $this->session->userdata('name')
 					);
-					$action = $this->model_user->update($data_id, $data, 'user');
+					$action = $this->model_user->update($data_id, $data, 'users');
 					echo json_encode($action);
 				} else {
 					echo json_encode(400);
@@ -109,9 +109,9 @@ class User extends CI_Controller
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
 
 			$data_id = array(
-				'Id'  => $this->input->post('id')
+				'IdUser'  => $this->input->post('id')
 			);
-			$action = $this->model_user->delete($data_id, 'user');
+			$action = $this->model_user->delete($data_id, 'users');
 			echo json_encode($action);
 		} else {
 			$this->load->view('pageadmin/login'); //Memanggil function render_view
@@ -137,11 +137,11 @@ class User extends CI_Controller
 					'UpdatedAt' => date('1990-01-01 H:i:s'),
 					'UpdatedBy'	=> $this->session->userdata('name')
 				);
-				$cek = $this->model_user->checkDuplicate($data, 'User');
+				$cek = $this->model_user->checkDuplicate($data, 'Users');
 				if ($cek > 0) {
 					echo json_encode(401);
 				} else {
-					$action = $this->model_user->insert($data, 'User');
+					$action = $this->model_user->insert($data, 'Users');
 					echo json_encode($action);
 				}
 			} else {
