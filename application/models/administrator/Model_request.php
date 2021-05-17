@@ -11,7 +11,7 @@ class Model_request extends CI_model
     public function viewOrderingCustom()
     {
         $Nik = $this->session->userdata('Nik');
-        if($this->session->userdata('Level') == 3){
+        if($this->session->userdata('Level') == 2){
             return $this->db->query('Select *,b.Name as DepartmentName , c.Username from "TxRequest" a 
             JOIN Department b on a.Department = b.Id 
             JOIN Users c on a.CreatedBy = c.Nik 
@@ -19,7 +19,8 @@ class Model_request extends CI_model
         } else {
             return $this->db->query('Select *,b.Name as DepartmentName , c.Username from "TxRequest" a 
             JOIN Department b on a.Department = b.Id 
-            JOIN Users c on a.CreatedBy = c.Nik');
+            JOIN Users c on a.CreatedBy = c.Nik
+            ');
         }
     }
 

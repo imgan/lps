@@ -34,7 +34,7 @@ class Model_gr extends CI_model
 	
 	public function checkDuplicate($data, $table)
     {
-        $this->db->where('GrNo',$data['LopId']);
+        $this->db->where('GrNo',$data['GrNo']);
         return $this->db->get($table)->num_rows();
     }
 

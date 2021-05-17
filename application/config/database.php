@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'imgan',
-	'password' => 'P@sswordKu!!',
-	'database' => 'IndirectControl',
+	'hostname' => '137.40.53.240',
+	'username' => 'sa',
+	'password' => '4dm1n123$',
+	'database' => 'INDIRECT_CONTROL',
 	'dbdriver' => 'sqlsrv',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

@@ -41,7 +41,6 @@ class Report extends CI_Controller
 			$akhir = $this->input->post('akhir');
 			$filename = "LeadTime_Report-$awal-$akhir.xlsx";
 			$data = $this->model_report->getAllStatus($awal, $akhir)->result_array();
-
 			if ($data != null) {
 				$spreadsheet = new Spreadsheet();
 				$spreadsheet->getActiveSheet(0)->mergeCells('A1:A3');

@@ -36,6 +36,9 @@ class Model_report extends CI_model
 
     public function getAllStatus($awal, $akhir)
     {
+        $awal = $awal.' 00:00:00';
+        $akhir = $akhir.' 23:59:59';
+       
         return $this->db->query("SELECT a.ReqNo,aa.StartedAt as StartReq , aa.EndedAt as EndReq ,
         DATEDIFF(DAY, aa.StartedAt, aa.EndedAt) as Duration1, b.Name , 
         c.BudgetId, c.StartedAt as StartReq2, c.EndedAt as EndedAt2,
