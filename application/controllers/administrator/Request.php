@@ -30,7 +30,7 @@ class Request extends CI_Controller
 
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 1,
 					'ReqNo'  =>  $this->input->post('id'),
@@ -67,7 +67,7 @@ class Request extends CI_Controller
 
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 2,
 					'ReqNo'  =>  $this->input->post('id'),
@@ -100,7 +100,7 @@ class Request extends CI_Controller
 				'UpdatedBy'  => $this->session->userdata('Nik'),
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 2,
 					'UpdatedAt'  => date('Y-m-d H:i:s'),
@@ -108,7 +108,7 @@ class Request extends CI_Controller
 					'UpdatedAt'  => date('Y-m-d H:i:s'),
 					'EndedAt'  => date('Y-m-d H:i:s'),
 				);
-				$action = $this->model_request->update($data_id2,$dataQuote, 'TxEworkflow');
+				$action = $this->model_request->update($data_id2, $dataQuote, 'TxEworkflow');
 			}
 			echo json_encode($action);
 		} else {
@@ -129,7 +129,7 @@ class Request extends CI_Controller
 				'UpdatedBy'  => $this->session->userdata('Nik'),
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 2,
 					'ReqNo'  =>   $this->input->post('e_id'),
@@ -140,9 +140,14 @@ class Request extends CI_Controller
 					'CreatedBy'  => $this->session->userdata('Nik'),
 					'StartedAt'  => date('Y-m-d H:i:s'),
 				);
-				$action = $this->model_request->insert($dataQuote, 'TxEworkflow');
+				$cek = $this->model_request->checkDuplicateEWF($dataQuote, 'TxEworkflow');
+				if ($cek > 0) {
+					echo json_encode(401);
+				} else {
+					$action = $this->model_request->insert($dataQuote, 'TxEworkflow');
+					echo json_encode($action);
+				}
 			}
-			echo json_encode($action);
 		} else {
 			$this->load->view('pageadmin/login'); //Memanggil function render_view
 		}
@@ -163,7 +168,7 @@ class Request extends CI_Controller
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
 			$reqNo = $this->model_request->viewWhere('TxRequest', $data)->result();
 			$reqNo = $reqNo[0]->ReqNo;
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 1,
 					'ReqNo'  =>   $this->input->post('id'),
@@ -198,7 +203,7 @@ class Request extends CI_Controller
 				'UpdatedBy'  => $this->session->userdata('Nik'),
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 1,
 					'UpdatedAt'  => date('Y-m-d H:i:s'),
@@ -206,7 +211,7 @@ class Request extends CI_Controller
 					'UpdatedAt'  => date('Y-m-d H:i:s'),
 					'EndedAt'  => date('Y-m-d H:i:s'),
 				);
-				$action = $this->model_request->update($data_id2,$dataQuote, 'TxBuyer');
+				$action = $this->model_request->update($data_id2, $dataQuote, 'TxBuyer');
 			}
 			echo json_encode($action);
 		} else {
@@ -265,7 +270,7 @@ class Request extends CI_Controller
 				'UpdatedBy'  => $this->session->userdata('Nik'),
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 1,
 					'ReqNo'  =>  $this->input->post('id'),
@@ -299,12 +304,12 @@ class Request extends CI_Controller
 				'UpdatedBy'  => $this->session->userdata('Nik'),
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 2,
 					'ReqNo'  =>  $this->input->post('id'),
 					'UpdatedAt'  => date('Y-m-d H:i:s'),
-					'UpdatedBy'  =>$this->session->userdata('Nik'),
+					'UpdatedBy'  => $this->session->userdata('Nik'),
 					'EndedAt'  => date('Y-m-d H:i:s'),
 				);
 				$action = $this->model_request->update($data_id2, $dataQuote, 'TxRegister');
@@ -330,7 +335,7 @@ class Request extends CI_Controller
 
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 1,
 					'ReqNo'  =>  $this->input->post('id'),
@@ -348,7 +353,7 @@ class Request extends CI_Controller
 		}
 	}
 
-	
+
 	public function budgetstop()
 	{
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
@@ -367,12 +372,12 @@ class Request extends CI_Controller
 
 			);
 			$action = $this->model_request->update($data_id, $data, 'TxRequest');
-			if($action){
+			if ($action) {
 				$dataQuote = array(
 					'ReqStatus'  => 2,
 					'ReqNo'  =>  $this->input->post('id'),
 					'UpdatedAt'  => date('Y-m-d H:i:s'),
-					'UpdatedBy'  =>$this->session->userdata('Nik'),
+					'UpdatedBy'  => $this->session->userdata('Nik'),
 					'EndedAt'  => date('Y-m-d H:i:s'),
 				);
 				$action = $this->model_request->update($data_id2, $dataQuote, 'TxBudget');
@@ -383,12 +388,12 @@ class Request extends CI_Controller
 		}
 	}
 
-	
+
 	public function index()
 	{
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
 			$mydepartment = $this->model_request->viewOrdering('Department', 'Id', 'desc')->result_array();
-			if($this->session->userdata('Level') == 1){
+			if ($this->session->userdata('Level') == 1) {
 				$data = array(
 					'page_content'      => '../pageadmin/request/view',
 					'ribbon'            => '<li class="active">Daftar Request </li>',
@@ -396,7 +401,7 @@ class Request extends CI_Controller
 					'mydepartment'		=> $mydepartment
 				);
 				$this->render_view($data); //Memanggil function render_view
-			} else if( $this->session->userdata('Level') == 2)  {
+			} else if ($this->session->userdata('Level') == 2) {
 				$data = array(
 					'page_content'      => '../pageadmin/request/viewUser',
 					'ribbon'            => '<li class="active">Daftar Request User </li>',
@@ -404,7 +409,7 @@ class Request extends CI_Controller
 					'mydepartment'		=> $mydepartment
 				);
 				$this->render_view($data); //Memanggil function render_view
-			} else if( $this->session->userdata('Level') == 3)  {
+			} else if ($this->session->userdata('Level') == 3) {
 				$data = array(
 					'page_content'      => '../pageadmin/request/viewMRO',
 					'ribbon'            => '<li class="active">Daftar Request User </li>',
@@ -413,7 +418,6 @@ class Request extends CI_Controller
 				);
 				$this->render_view($data); //Memanggil function render_view
 			}
-		
 		} else {
 			$this->load->view('pageadmin/login'); //Memanggil function render_view
 		}
@@ -462,45 +466,44 @@ class Request extends CI_Controller
 		}
 	}
 
-    public function delete()
-    {
-        if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
+	public function delete()
+	{
+		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
 
-            $data_id = array(
-                'ReqId'  => $this->input->post('id')
-            );
-            $action = $this->model_request->delete($data_id, 'TxRequest');
-            echo json_encode($action);
-        } else {
-            $this->load->view('pageadmin/login'); //Memanggil function render_view
-        }
-    }
+			$data_id = array(
+				'ReqId'  => $this->input->post('id')
+			);
+			$action = $this->model_request->delete($data_id, 'TxRequest');
+			echo json_encode($action);
+		} else {
+			$this->load->view('pageadmin/login'); //Memanggil function render_view
+		}
+	}
 
 
-    public function simpan()
-    {
-        if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
+	public function simpan()
+	{
+		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
 
-            $data = array(
-                'ReqNo'  => $this->input->post('nama'),
-                'ReqStatus'  => 1,
-                'Department'  => $this->input->post('department'),
-                'ReqDesc'  =>  $this->input->post('desc'),
+			$data = array(
+				'ReqNo'  => $this->input->post('nama'),
+				'ReqStatus'  => 1,
+				'Department'  => $this->input->post('department'),
+				'ReqDesc'  =>  $this->input->post('desc'),
 				'CreatedAt' => date('Y-m-d H:i:s'),
 				'CreatedBy'	=> $this->session->userdata('Nik'),
 				'UpdatedAt' => date('1990-01-01 H:i:s'),
 				'UpdatedBy'	=> $this->session->userdata('Nik')
-            );
-			$cek = $this->model_request->checkDuplicate($data,'TxRequest');
-			if($cek > 0){
+			);
+			$cek = $this->model_request->checkDuplicate($data, 'TxRequest');
+			if ($cek > 0) {
 				echo json_encode(401);
 			} else {
 				$action = $this->model_request->insert($data, 'TxRequest');
 				echo json_encode($action);
 			}
-
-        } else {
-            $this->load->view('pageadmin/login'); //Memanggil function render_view
-        }
-    }
+		} else {
+			$this->load->view('pageadmin/login'); //Memanggil function render_view
+		}
+	}
 }

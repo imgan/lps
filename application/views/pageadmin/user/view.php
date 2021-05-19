@@ -81,29 +81,6 @@
 								<input required type="text" id="e_nama" name="e_nama" class="form-control" placeholder="Nama User">
 							</div>
 							<div class="form-group">
-								<label>Email</label>
-								<input required type="email" id="e_email" name="e_email" class="form-control" placeholder="Email">
-							</div>
-							<div class="form-group">
-								<label>Telephone</label>
-								<input required type="text" id="e_telp" name="e_telp" class="form-control" placeholder="Telephone">
-							</div>
-							<div class="form-group">
-								<label>Alamat</label>
-								<textarea type="text" id="e_alamat" name="e_alamat" class="form-control" placeholder="Alamat"></textarea>
-							</div>
-							<div class="form-group">
-								<label>Level</label>
-								<select class="form-control select2" style="width: 100%;" name="e_level" id="e_level">
-									<option selected="selected">-- Pilih --</option>
-									<option value="1">Super User</option>
-									<option value="2">Finance</option>
-									<option value="3">Admin</option>
-									<option value="4">NOC</option>
-									<option value="5">Support</option>
-								</select>
-							</div>
-							<div class="form-group">
 								<label>Password</label>
 								<input type="password" id="e_password" name="e_password" class="form-control" placeholder="Kosongkan Jika TIdak ingin dirubah">
 							</div>
@@ -111,13 +88,22 @@
 								<label>Password Confirm</label>
 								<input type="password" id="e_passwordconfirm" name="e_passwordconfirm" class="form-control" placeholder="Kosongkan Jika TIdak ingin dirubah">
 							</div>
-
 							<div class="form-group">
-								<label>Status User</label>
-								<select class="form-control select2" style="width: 100%;" name="e_status" id="e_status">
+								<label>Department</label>
+								<select class="form-control select2" style="width: 100%;" name="e_department" id="e_department">
 									<option value="" selected="selected">-- Pilih --</option>
-									<option value="1">-- Active --</option>
-									<option value="0">-- Inactive --</option>
+									<?php foreach ($mydepartment as $value) { ?>
+										<option value=<?= $value['Id'] ?>><?= $value['Name'] ?></option>
+									<?php } ?>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Level</label>
+								<select class="form-control select2" style="width: 100%;" name="e_level" id="e_level">
+									<option value="" selected="selected">-- Pilih --</option>
+									<?php foreach ($mylevel as $value) { ?>
+										<option value=<?= $value['Id'] ?>><?= $value['Name'] ?></option>
+									<?php } ?>
 								</select>
 							</div>
 						</div>
@@ -165,6 +151,9 @@
 						</th>
 						<th class="text-center">
 							Department
+						</th>
+						<th class="text-center">
+							Level
 						</th>
 						<th class="text-center">
 							Status
@@ -282,28 +271,39 @@
 				var no = 1;
 				for (i = 0; i < data.length; i++) {
 					var level = '';
-					if (data[i].Level == 1) {
+					if (data[i].Level == 3) {
 						level = '<td class="project-state"><span class="badge badge-success"> MRO </span></td>'
 					} else if (data[i].Level == 2) {
 						level = '<td class="project-state"><span class="badge badge-info"> User </span></td>'
+					} else {
+						level = '<td class="project-state"><span class="badge badge-warning"> Tidak ada Level  </span></td>'
 					}
 					var status = '';
-					if (data[i].IsActive == 1) {
-						status = '<td class="project-state"><span class="badge badge-success"> Active </span></td>'
+					if (data[i].IsActive == '1') {
+						status = '<td class="text-center">' +
+							'   <button  class="btn btn-success btn-sm item_non"  data-id="' + data[i].IdUser + '">' +
+							'      <i class="fas fa-check"> </i>  Aktif </button>' +
+							'</a> &nbsp' +
+							'</td>'
 					} else {
-						status = '<td class="project-state"><span class="badge badge-danger"> Inactive </span></td>'
+						status = '<td class="text-center">' +
+							'   <button  class="btn btn-danger btn-sm item_approve"  data-id="' + data[i].IdUser + '">' +
+							'      <i class="fas fa-times"> </i>  Non Aktif </button>' +
+							'</button> &nbsp' +
+							'</td>'
 					}
 					html += '<tr>' +
 						'<td class="text-left">' + no + '</td>' +
 						'<td class="text-left">' + data[i].Nik + '</td>' +
 						'<td class="text-left">' + data[i].Username + '</td>' +
+						'<td class="text-left">' + data[i].DepartmentName + '</td>' +
 						level +
 						status +
 						'<td class="project-actions text-right">' +
-						'   <button  class="btn btn-primary btn-sm item_edit"  data-id="' + data[i].id + '">' +
+						'   <button  class="btn btn-primary btn-sm item_edit"  data-id="' + data[i].IdUser + '">' +
 						'      <i class="fas fa-folder"> </i>  Edit </a>' +
 						'</button> &nbsp' +
-						'   <button  class="btn btn-danger btn-sm item_hapus"  data-id="' + data[i].id + '">' +
+						'   <button  class="btn btn-danger btn-sm item_hapus"  data-id="' + data[i].IdUser + '">' +
 						'      <i class="fas fa-trash"> </i>  Hapus </a>' +
 						'</button> ' +
 						'</td>' +
@@ -327,6 +327,75 @@
 		});
 	}
 
+	$('#show_data').on('click', '.item_approve', function() {
+		var id = $(this).data('id');
+		Swal.fire({
+			title: 'Apakah anda yakin?',
+			text: "Anda mengubah status menjadi aktif",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Ya, Aktifkan!',
+			cancelButtonText: 'Batal'
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+					type: "POST",
+					url: "<?php echo base_url('administrator/user/aktif') ?>",
+					async: true,
+					dataType: "JSON",
+					data: {
+						id: id,
+					},
+					success: function(data) {
+						show_data();
+						Swal.fire(
+							'Terupdate!',
+							'User Telah Aktif',
+							'success'
+						)
+					}
+				});
+			}
+		})
+	})
+
+
+	$('#show_data').on('click', '.item_non', function() {
+		var id = $(this).data('id');
+		Swal.fire({
+			title: 'Apakah anda yakin?',
+			text: "Anda mengubah status menjadi Non aktif",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Ya, Non Aktifkan!',
+			cancelButtonText: 'Batal'
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+					type: "POST",
+					url: "<?php echo base_url('administrator/user/nonaktif') ?>",
+					async: true,
+					dataType: "JSON",
+					data: {
+						id: id,
+					},
+					success: function(data) {
+						show_data();
+						Swal.fire(
+							'Terupdate!',
+							'User Telah Non Aktif',
+							'success'
+						)
+					}
+				});
+			}
+		})
+	})
+
 	//get data for update record
 	$('#show_data').on('click', '.item_edit', function() {
 		document.getElementById("formEdit").reset();
@@ -341,13 +410,10 @@
 				id: id,
 			},
 			success: function(data) {
-				$('#e_id').val(data[0].id);
-				$('#e_nama').val(data[0].name);
-				$('#e_email').val(data[0].email);
-				$('#e_telp').val(data[0].phone);
-				$('#e_alamat').val(data[0].address);
-				$('#e_level').val(data[0].level).select2();
-				$('#e_status').val(data[0].is_active).select2();
+				$('#e_id').val(data[0].IdUser);
+				$('#e_nama').val(data[0].Username);
+				$('#e_level').val(data[0].Level).select2();
+				$('#e_department').val(data[0].Department).select2();
 			}
 		});
 	});

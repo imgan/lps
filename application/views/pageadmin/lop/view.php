@@ -215,11 +215,11 @@
                             '   <button  class="btn btn-danger btn-sm item_stop"  data-id="' + data[i].LopId + '">' +
                             '      <i class="fas fa-stop"> </i>  Stop </a>' +
                             '</button> &nbsp';
-                        status = '<td class="project-state"><span class="badge badge-info"> IPPS Input .. </span></td>';
+                        status = '<td class="project-state"><span class="badge badge-info"> LOP Input .. </span></td>';
                     } else {
                         button = '<td class="project-actions text-center">' +
                             '</button> &nbsp';
-                        status = '<td class="project-state"><span class="badge badge-success"> Finish IPPS Input .. </span></td>';
+                        status = '<td class="project-state"><span class="badge badge-success"> Finish LOP Input .. </span></td>';
                     }
 
                     html += '<tr>' +

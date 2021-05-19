@@ -17,9 +17,14 @@ class Model_gr extends CI_model
     public function viewOrderingCustomV2()
     {
         return $this->db->query('Select a.*, b.ReqNo as ReqNos, c.PoNo as Ponos from "TxGr" a 
-        JOIN TxRequest b on a.ReqNo = b.ReqId
+        LEFT JOIN TxRequest b on a.ReqNo = b.ReqId
         LEFT JOIN Txpo c on a.PoNo = c.PoId
         ');
+    }
+
+    public function viewOrderingCustomV3()
+    {
+        return $this->db->query("Select * from TxPo where EndedAt IS NOT NULL order by PoId desc");
     }
 
     public function viewWhereCustomLop($id)

@@ -20,6 +20,8 @@ class Model_report extends CI_model
         return $this->db->get($table)->num_rows();
     }
 
+  
+
     public function viewWhereOrdering($table, $data, $order, $ordering)
     {
         $this->db->where($data);
@@ -58,16 +60,16 @@ class Model_report extends CI_model
          j.GrNo,j.StartedAt as StartReq9 , j.EndedAt as EndReq9 ,
 		 DATEDIFF(DAY, j.StartedAt, j.EndedAt) as Duration9
         from TxRequest a 
-        JOIN TxQuotation aa on a.ReqId = aa.ReqNo
-        JOIN Department b ON a.Department = b.Id
-         JOIN TxBudget c ON a.ReqId = c.ReqNo
-         JOIN TxEworkflow d ON a.ReqId = d.ReqNo
-         JOIN TxRegister e ON a.ReqId = e.ReqNo
-         JOIN TxBuyer f ON a.ReqId = f.ReqNo
-         JOIN TxLop g on a.ReqId = g.ReqNo
-         JOIN TxPr h on a.ReqId = h.ReqNo
-         JOIN TxPo i on a.ReqId = i.ReqNo
-         JOIN TxGr j on a.ReqId = j.ReqNo
+        LEFT JOIN TxQuotation aa on a.ReqId = aa.ReqNo
+        LEFT JOIN Department b ON a.Department = b.Id
+        LEFT JOIN TxBudget c ON a.ReqId = c.ReqNo
+        LEFT  JOIN TxEworkflow d ON a.ReqId = d.ReqNo
+        LEFT JOIN TxRegister e ON a.ReqId = e.ReqNo
+        LEFT JOIN TxBuyer f ON a.ReqId = f.ReqNo
+        LEFT JOIN TxLop g on a.ReqId = g.ReqNo
+        LEFT JOIN TxPr h on a.ReqId = h.ReqNo
+        LEFT JOIN TxPo i on a.ReqId = i.ReqNo
+         LEFT JOIN TxGr j on a.ReqId = j.ReqNo
          where a.CreatedAt between '".$awal."' and '".$akhir."'
          ");
     }

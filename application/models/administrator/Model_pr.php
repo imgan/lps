@@ -21,6 +21,11 @@ class Model_pr extends CI_model
          LEFT JOIN TxLop c on a.LopId = c.LopId ');
     }
 
+    public function viewOrderingCustomV3()
+    {
+        return $this->db->query("Select * from TxLop where EndedAt IS NOT NULL");
+    }
+
   
 
     public function viewWhereCustomLop($lop)

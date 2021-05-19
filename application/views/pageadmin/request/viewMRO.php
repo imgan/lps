@@ -360,13 +360,13 @@
                             '      <i class="fas fa-trash"> </i>  Hapus </a>' +
                             '</button> ' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-warning"> Finding Buyer .. </span></td>'
+                        status = '<td class="project-state"><span class="badge badge-info"> Find Buyer .. </span></td>'
                     } else if (data[i].ReqStatus == 10) {
                         button = '<td class="project-actions text-left">' +
                             '   <button  class="btn btn-danger btn-sm item_stop_buyer"  data-id="' + data[i].ReqId + '">' +
                             '      <i class="fas fa-stop"> </i>  Stop Buyer Item </a>' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> Finding Buyer .. </span></td>'
+                        status = '<td class="project-state"><span class="badge badge-warning"> Finding Buyer .. </span></td>'
                     } else if (data[i].ReqStatus == 11) {
                         button = '<td class="project-actions text-left"><a class="btn btn-info btn-sm" href="<?php echo base_url() . "administrator/lop"; ?>"> Start IPPS </td>'
                         status = '<td class="project-state"><span class="badge badge-info"> IPPS Input .. </span></td>'

@@ -18,7 +18,7 @@ class Po extends CI_Controller
 	public function index()
 	{
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
-			$my_data = $this->model_po->viewOrderingCustom('TxPr', 'PrId', 'desc')->result_array();
+			$my_data = $this->model_po->viewOrderingCustomV3('TxPr', 'PrId', 'desc')->result_array();
 			$data = array(
 				'page_content'      => '../pageadmin/PO/view',
 				'ribbon'            => '<li class="active">Daftar PO </li>',

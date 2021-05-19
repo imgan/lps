@@ -8,6 +8,12 @@ class Model_request extends CI_model
         return $this->db->get($table);
     }
 
+    public function checkDuplicateEWF($data, $table)
+    {
+        $this->db->where('EwfNo',$data['EwfNo']);
+        return $this->db->get($table)->num_rows();
+    }
+    
     public function viewOrderingCustom()
     {
         $Nik = $this->session->userdata('Nik');

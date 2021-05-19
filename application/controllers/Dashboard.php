@@ -18,72 +18,30 @@ class Dashboard extends CI_Controller
     public function index()
     {
         if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
-            // $tahun = $this->input->post('tahun');
-            // if(isset($tahun)){
-            //     $tahun = $this->input->post('tahun');
-            // } else {
-            //     $tahun =date("Y");
-            // }
-            // $latestpayment = $this->db->query("select   CONCAT('Rp. ',FORMAT(a.nominal_bayar,2)) nominal, DATE_FORMAT(a.updatedAt,'%d-%M-%Y') as tgl_pembayaran, b.name as nama_pelanggan
-            // ,d.name as nama_layanan , a.metode_pembayaran from invoice a
-            // join customer b on a.no_services = b.no_services
-            // join invoice_detail c on a.id = c.invoice_id
-            // join package_item d on c.item_id = d.id where a.status != 0 order by a.updatedAt desc limit 10 ")->result_array();
-			// //customer normal
-            // $totalcustomer = $this->db->query("select count(id) as total from customer where status = 1 ")->result_array();
-            // $totalcustomer2 = $this->db->query("select count(id) as total from customer where status = 0 ")->result_array();
-			// //customer corporate
-			// $totalcustomercorporate = $this->db->query("select count(id) as total from customer_corporate where status = 1 ")->result_array();
-            // $totalcustomercorporate2 = $this->db->query("select count(id) as total from customer_corporate where status = 0 ")->result_array();
-
-            // $gsm = $this->db->query("select count(id) as total from pengguna_gsm where status = 1 ")->result_array();
-            // $gsm2 = $this->db->query("select count(id) as total from pengguna_gsm where status = 0 ")->result_array();
-
-
-            // $totalcustomer3 = $this->db->query("select count(id) as total from data_pelanggan_voip where status = 1")->result_array();
-            // $totalcustomer4 = $this->db->query("select count(id) as total from data_pelanggan_voip where status = 0")->result_array();
-
-			// $datamidi = $this->db->query("select count(id) as total from datamidi where status = 1")->result_array();
-            // $datamidi2 = $this->db->query("select count(id) as total from datamidi where status = 0")->result_array();
-
-            // $inet = $this->db->query("select count(id) as total from inet where status = 1")->result_array();
-            // $inet2 = $this->db->query("select count(id) as total from inet where status = 0")->result_array();
-            // $inventori = $this->db->query("select count(id) as total from data_inventori ")->result_array();
-            // $zona = $this->db->query("select count(id) as total from wilayah ")->result_array();
-            // $vendordetail = $this->db->query("select count(id) as total from vendor_detail ")->result_array();
-
-            // $totalpendapatan = $this->db->query("select CONCAT('Rp. ',FORMAT(sum(nominal_bayar),2)) total from invoice_detail a where year(a.updatedAt) = '$tahun' ")->result_array();
-            // $totalpendapatan =  $totalpendapatan[0];
-            // $datainv = $inventori[0];
-            // $inet =  $inet[0];
-            // $inet2 =  $inet2[0];
-            // $totalcustomer = $totalcustomer[0];
-            // $totalcustomer2 =  $totalcustomer2[0];
-            // $totalcustomer3 = $totalcustomer3[0];
-            // $totalcustomer4 = $totalcustomer4[0];
-
-            // $harga = array();
-            // $bulan = array();
-            // $mygraph = $this->db->query("select sum(a.nominal_bayar) as harga, monthname(a.updatedAt) as bulan
-            //  from invoice a where year(a.updatedAt) = '$tahun' group by monthname(a.updatedAt) ORDER by month(a.updatedAt) ")->result_array();
-            // foreach ($mygraph as $row) {
-            //     if ($row['harga'] == null) {
-            //         array_push($harga, 0);
-            //     } else {
-            //         array_push($harga, $row['harga']);
-            //     }
-
-            //     if ($row['bulan'] == null) {
-            //         array_push($bulan, 0);
-            //     } else {
-            //         array_push($bulan, $row['bulan']);
-            //     }
-            // }
-
+            $tahun = $this->input->post('tahun');
+            if (isset($tahun)) {
+                $tahun = $this->input->post('tahun');
+            } else {
+                $tahun = date("Y");
+            }
+            $test = array();
+            $datanya = array();
+            $mygraph = $this->db->query("select count(a.ReqId) as total, DATENAME(month,a.CreatedAt) as bulan
+             from TxRequest a where DATENAME(year,a.CreatedAt) = '$tahun'  group by DATENAME(month,a.CreatedAt) ORDER by DATENAME(month,a.CreatedAt) ")->result_array();
+            foreach ($mygraph as $row) {
+                $datanya = array(
+                    "month" => $row['bulan'],
+                    "value"  => $row['total'],
+                    // "value2"  => $rows['total']
+                );
+                array_push($test, $datanya);
+            }
             $data = array(
                 'page_content'      => '../pageadmin/dashboard',
                 'ribbon'            => '<li class="active">Dashboard</li>',
                 'page_name'         => 'Dashboard',
+                'test'           => $test,
+                'tahun'         => $tahun
             );
             $this->render_view($data); //Memanggil function render_view
         } else {

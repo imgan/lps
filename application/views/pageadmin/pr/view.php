@@ -15,12 +15,25 @@
                                 <label>PR Number</label>
                                 <input required type="text" id="pr" name="pr" class="form-control" placeholder="PR Number">
                             </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="check" id="check">
+                                <label class="form-check-label" for="exampleCheck1">Without LOP</label>
+                            </div>
                             <div class="form-group">
                                 <label>Lop Number</label>
                                 <select class="form-control select2" style="width: 100%;" name="lop" id="lop">
                                     <option value="" selected="selected">-- Pilih --</option>
                                     <?php foreach ($my_data as $value) { ?>
                                         <option value=<?= $value['LopId'] ?>><?= $value['LopNo'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Request Number</label>
+                                <select disabled class="form-control select2" style="width: 100%;" name="reqnom" id="reqnom">
+                                    <option value="" selected="selected">-- Pilih --</option>
+                                    <?php foreach ($my_data2 as $value) { ?>
+                                        <option value=<?= $value['ReqId'] ?>><?= $value['ReqNo'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -96,7 +109,7 @@
                         </th>
                         <th class="text-center">
                             Request No
-                        </th> 
+                        </th>
                         <th class="text-center">
                             LOP No
                         </th>
@@ -156,6 +169,7 @@
                             swalInputSuccess();
                             show_data();
                             $('#modalTambah').modal('hide');
+                            location.reload();
                         } else if (response == 401) {
                             swalIdDouble();
                         } else {
@@ -221,11 +235,11 @@
                             '      <i class="fas fa-stop"> </i>  Stop </button>' +
                             '</a> &nbsp' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> Process PR Input .. </span></td>';
+                        status = '<td class="project-state"><span class="badge badge-warning"> Processing PR Input .. </span></td>';
                     } else {
                         button = '<td class="text-center">' +
                             '</td>';
-                            status = '<td class="project-state"><span class="badge badge-success"> Finish PR.. </span></td>';
+                        status = '<td class="project-state"><span class="badge badge-success"> Finish PR.. </span></td>';
                     }
 
                     html += '<tr>' +
@@ -235,9 +249,9 @@
                         '<td class="text-left">' + data[i].Prno + '</td>' +
                         '<td class="text-left">' + data[i].StartedAt + '</td>' +
                         '<td class="text-left">' + data[i].EndedAt + '</td>' +
-                        status+
-                        button+
-                    '</td>';
+                        status +
+                        button +
+                        '</td>';
                     '</tr>';
                     no++;
                 }
@@ -259,17 +273,17 @@
     }
 
     $("#lop").change(function() {
-		var id = $('#lop').val();
-		$.ajax({
-			type: "POST",
-			url: "<?php echo base_url('administrator/pr/showreqno') ?>",
-			data: {
-				id: id
-			}
-		}).done(function(data) {
-			$("#reqno").val(data);
-		});
-	});
+        var id = $('#lop').val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('administrator/pr/showreqno') ?>",
+            data: {
+                id: id
+            }
+        }).done(function(data) {
+            $("#reqno").val(data);
+        });
+    });
 
     $('#show_data').on('click', '.item_non', function() {
         var id = $(this).data('id');
@@ -409,6 +423,30 @@
     }
 
     $(document).ready(function() {
+        $('#check').change(function() {
+            if (this.checked) {
+                var returnVal = confirm("Are you sure?");
+                if (returnVal === true) {
+                    $(this).prop("checked", true);
+                    $("#lop").prop('disabled', true);
+                    $("#reqnom").prop('disabled', false);
+                    $("#reqnom").prop('required', true);
+                } else {
+                    $(this).prop("checked", false);
+                }
+            } else {
+                var returnVal = confirm("Are you sure?");
+                if (returnVal === true) {
+                    $(this).prop("checked", false);
+                    $("#lop").prop('disabled', false);
+                    $("#reqnom").prop('disabled', true);
+                    $("#reqnom").prop('required', false);
+                } else {
+                    $(this).prop("checked", true);
+                }
+            }
+        });
+
         show_data();
         $('.select2').select2();
         $('#table_id').DataTable({

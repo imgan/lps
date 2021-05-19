@@ -8,6 +8,12 @@ class Model_user extends CI_model
         return $this->db->get($table);
     }
 
+    public function viewOrderingCustom($table, $order, $ordering)
+    {
+        return $this->db->query("Select a.*, b.Name as DepartmentName from users a 
+        LEFT JOIN Department b on a.Department = b.Id");
+    }
+
 	public function viewWhere($table, $data)
     {
         $this->db->where($data);

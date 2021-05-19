@@ -18,7 +18,7 @@ class Gr extends CI_Controller
     public function index()
     {
         if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
-            $my_data = $this->model_gr->viewOrderingCustom('TxPo', 'PoId', 'desc')->result_array();
+            $my_data = $this->model_gr->viewOrderingCustomV3('TxPo', 'PoId', 'desc')->result_array();
             $data = array(
                 'page_content'      => '../pageadmin/gr/view',
                 'ribbon'            => '<li class="active">Daftar gr </li>',

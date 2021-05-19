@@ -224,7 +224,7 @@
                             '      <i class="fas fa-stop"> </i>  Stop </button>' +
                             '</a> &nbsp' +
                             '</td>';
-                        status = '<td class="project-state"><span class="badge badge-info"> Process PO Input .. </span></td>';
+                        status = '<td class="project-state"><span class="badge badge-warning"> Processing PO Input .. </span></td>';
                     } else {
                         button = '<td class="text-center">' +
                             '</td>';

@@ -38,7 +38,7 @@ class User extends CI_Controller
 	public function tampil()
 	{
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
-			$my_data = $this->model_user->viewOrdering('Users', 'IdUser', 'desc')->result_array();
+			$my_data = $this->model_user->viewOrderingCustom('Users', 'IdUser', 'desc')->result_array();
 			echo json_encode($my_data);
 		} else {
 			$this->load->view('pageadmin/login'); //Memanggil function render_view
@@ -50,7 +50,7 @@ class User extends CI_Controller
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
 
 			$data = array(
-				'id'  => $this->input->post('id'),
+				'IdUser'  => $this->input->post('id'),
 			);
 			$my_data = $this->model_user->viewWhere('users', $data)->result();
 			echo json_encode($my_data);
@@ -63,35 +63,31 @@ class User extends CI_Controller
 	{
 		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
 			$data_id = array(
-				'Id'  => $this->input->post('e_id')
+				'IdUser'  => $this->input->post('e_id')
 			);
 			$password = md5($this->input->post('e_password'));
 			$kata = strlen($this->input->post('e_password'));
 			$password = hash("sha512", $password);
-
 			$password2 = md5($this->input->post('e_passwordc'));
 			$password2 = hash("sha512", $password2);
 			if ($kata == 0) {
 				$data = array(
-					'Nik'  => $this->input->post('e_nik'),
 					'Username'  => $this->input->post('e_nama'),
 					'Level'  => $this->input->post('e_level'),
-					'createdBy'	=> $this->session->userdata('name'),
-					'UpdatedAt' => date('Y-m-d H:i:s'),
-					'UpdatedBy'	=> $this->session->userdata('name')
+					'Department'  => $this->input->post('e_department'),
+					'createdBy'	=> $this->session->userdata('Username'),
 				);
 				$action = $this->model_user->update($data_id, $data, 'users');
 				echo json_encode($action);
 			} else {
 				if ($password == $password2) {
 					$data = array(
-						'Nik'  => $this->input->post('e_nik'),
 						'Username'  => $this->input->post('e_nama'),
 						'Level'  => $this->input->post('e_level'),
+						'Department'  => $this->input->post('e_department'),
 						'password'	=> $password,
-						'createdBy'	=> $this->session->userdata('name'),
 						'UpdatedAt' => date('Y-m-d H:i:s'),
-						'UpdatedBy'	=> $this->session->userdata('name')
+						'UpdatedBy'	=> $this->session->userdata('Username')
 					);
 					$action = $this->model_user->update($data_id, $data, 'users');
 					echo json_encode($action);
@@ -130,7 +126,9 @@ class User extends CI_Controller
 				$data = array(
 					'Nik'  => $this->input->post('nik'),
 					'Username'  => $this->input->post('nama'),
+					'Department'  => $this->input->post('department'),
 					'Level'  => $this->input->post('level'),
+					'IsActive'  => 0,
 					'password'	=> $password,
 					'createdAt' => date('Y-m-d H:i:s'),
 					'createdBy'	=> $this->session->userdata('name'),
@@ -147,6 +145,41 @@ class User extends CI_Controller
 			} else {
 				echo json_encode(400);
 			}
+		} else {
+			$this->load->view('pageadmin/login'); //Memanggil function render_view
+		}
+	}
+
+	public function aktif()
+	{
+		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
+
+			$data_id = array(
+				'IdUser'  => $this->input->post('id')
+			);
+			$data = array(
+				'IsActive'  => 1
+			);
+			$action = $this->model_user->update($data_id, $data, 'users');
+			echo json_encode($action);
+		} else {
+			$this->load->view('pageadmin/login'); //Memanggil function render_view
+		}
+	}
+
+	
+	public function nonaktif()
+	{
+		if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
+
+			$data_id = array(
+				'IdUser'  => $this->input->post('id')
+			);
+			$data = array(
+				'IsActive'  => 0
+			);
+			$action = $this->model_user->update($data_id, $data, 'users');
+			echo json_encode($action);
 		} else {
 			$this->load->view('pageadmin/login'); //Memanggil function render_view
 		}
