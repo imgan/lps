@@ -275,6 +275,8 @@
 						level = '<td class="project-state"><span class="badge badge-success"> MRO </span></td>'
 					} else if (data[i].Level == 2) {
 						level = '<td class="project-state"><span class="badge badge-info"> User </span></td>'
+					} else if (data[i].Level == 1) {
+						level = '<td class="project-state"><span class="badge badge-warning"> Administrator </span></td>'
 					} else {
 						level = '<td class="project-state"><span class="badge badge-warning"> Tidak ada Level  </span></td>'
 					}

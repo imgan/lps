@@ -31,154 +31,45 @@
   				</li>
   				<?php
 					$session = $this->session->userdata('level');
+					$menus = $this->session->userdata('Menus');
+					$grup = $this->session->userdata('Grup');
 					?>
   				<li class="nav-header">MENU</li>
-  				<li class="nav-item has-treeview">
-  					<a href="<?php echo base_url() . 'administrator/customer'; ?>" class="nav-link">
-  						<i class="nav-icon fas fa-search-plus"></i>
-  						<p>
-  							Pencarian
-  							<i class="fas fa-angle-left right"></i>
-  						</p>
-  					</a>
+  				<?php $menu = $this->db->query("select * from TxMenu where Id in ($grup)")->result_array();
+				 	$menus = explode(",", $menus);
+					foreach ($menu as $value) {
+					?>
+  					<li class="nav-item has-treeview">
+  						<a href="#" class="nav-link">
+  							<i class="<?= $value['Icon']; ?>"></i>
+  							<p>
+  								<?= $value['NamaMenu']; ?>
+  								<i class="fas fa-angle-left right"></i>
+  							</p>
+  						</a>
+  						<?php $submenu = $this->db->query("select * from TxSubMenu where IdMenu = " . $value['Id'] . "")->result_array();
+							foreach ($submenu as $valuesub) {
+								if(in_array($valuesub['Id'], $menus)){
+							?>
+  							<ul class="nav nav-treeview">
+  								<li class="nav-item">
+  									<a href="<?php echo base_url() . $valuesub['Link']; ?>" class="nav-link">
+  										<i class="far fa-circle nav-icon"></i>
+  										<p><?= $valuesub['NamaSubMenu']; ?></p>
+  									</a>
+  								</li>
+  							</ul>
+  						<?php
+								}
 
-  					<ul class="nav nav-treeview">
-  						<li class="nav-item">
-  							<a href="<?php echo base_url() . 'administrator/searching'; ?>" class="nav-link">
-  								<i class="far fa-circle nav-icon"></i>
-  								<p>Pencarian</p>
-  							</a>
-  						</li>
-  					</ul>
+							}
+							?>
+  					</li>
+
+  				<?php
+					}
+					?>
   				</li>
-  				<li class="nav-item has-treeview">
-  					<a href="<?php echo base_url() . 'administrator/customer'; ?>" class="nav-link">
-  						<i class="nav-icon fas fa-file-signature"></i>
-  						<p>
-  							Request MRO
-  							<i class="fas fa-angle-left right"></i>
-  						</p>
-  					</a>
-
-  					<ul class="nav nav-treeview">
-  						<li class="nav-item">
-  							<a href="<?php echo base_url() . 'administrator/request'; ?>" class="nav-link">
-  								<i class="far fa-circle nav-icon"></i>
-  								<p>Quotation Inquiry</p>
-  							</a>
-  						</li>
-  					</ul>
-  				</li>
-  				<?php if ($this->session->userdata('Level') == 3) { ?>
-  					<li class="nav-item has-treeview">
-  						<a href="<?php echo base_url() . 'administrator/customer'; ?>" class="nav-link">
-  							<i class="nav-icon fas fa-file-signature"></i>
-  							<p>
-  								IPPS Input
-  								<i class="fas fa-angle-left right"></i>
-  							</p>
-  						</a>
-
-  						<ul class="nav nav-treeview">
-  							<li class="nav-item">
-  								<a href="<?php echo base_url() . 'administrator/lop'; ?>" class="nav-link">
-  									<i class="far fa-circle nav-icon"></i>
-  									<p>LOP</p>
-  								</a>
-  							</li>
-  						</ul>
-  						<ul class="nav nav-treeview">
-  							<li class="nav-item">
-  								<a href="<?php echo base_url() . 'administrator/pr'; ?>" class="nav-link">
-  									<i class="far fa-circle nav-icon"></i>
-  									<p>PR</p>
-  								</a>
-  							</li>
-  						</ul>
-  						<ul class="nav nav-treeview">
-  							<li class="nav-item">
-  								<a href="<?php echo base_url() . 'administrator/po'; ?>" class="nav-link">
-  									<i class="far fa-circle nav-icon"></i>
-  									<p>PO</p>
-  								</a>
-  							</li>
-  						</ul>
-  					</li>
-  					<li class="nav-item has-treeview">
-  						<a href="<?php echo base_url() . 'administrator/customer'; ?>" class="nav-link">
-  							<i class="nav-icon fas fa-sticky-note"></i>
-  							<p>
-  								Goods Receiving
-  								<i class="fas fa-angle-left right"></i>
-  							</p>
-  						</a>
-
-  						<ul class="nav nav-treeview">
-  							<li class="nav-item">
-  								<a href="<?php echo base_url() . 'administrator/gr'; ?>" class="nav-link">
-  									<i class="far fa-circle nav-icon"></i>
-  									<p>Goods Receiving Input</p>
-  								</a>
-  							</li>
-  						</ul>
-  					</li>
-  					<li class="nav-item has-treeview">
-  						<a href="<?php echo base_url() . 'administrator/customer'; ?>" class="nav-link">
-  							<i class="nav-icon fas fa-book"></i>
-  							<p>
-  								Report
-  								<i class="fas fa-angle-left right"></i>
-  							</p>
-  						</a>
-
-  						<ul class="nav nav-treeview">
-  							<li class="nav-item">
-  								<a href="<?php echo base_url() . 'administrator/report'; ?>" class="nav-link">
-  									<i class="far fa-circle nav-icon"></i>
-  									<p>Report</p>
-  								</a>
-  							</li>
-  						</ul>
-  					</li>
-  					<li class="nav-header">Master</li>
-
-  					<li class="nav-item has-treeview">
-  						<a href="<?php echo base_url() . 'administrator/customer'; ?>" class="nav-link">
-  							<i class="nav-icon fas fa-chart-pie"></i>
-  							<p>
-  								Master Data
-  								<i class="fas fa-angle-left right"></i>
-  							</p>
-  						</a>
-
-  						<ul class="nav nav-treeview">
-  							<li class="nav-item">
-  								<a href="<?php echo base_url() . 'administrator/user'; ?>" class="nav-link">
-  									<i class="far fa-circle nav-icon"></i>
-  									<p>Master User</p>
-  								</a>
-  							</li>
-  						</ul>
-
-  						<ul class="nav nav-treeview">
-  							<li class="nav-item">
-  								<a href="<?php echo base_url() . 'administrator/department'; ?>" class="nav-link">
-  									<i class="far fa-circle nav-icon"></i>
-  									<p>Master Department</p>
-  								</a>
-  							</li>
-  						</ul>
-
-  						<ul class="nav nav-treeview">
-  							<li class="nav-item">
-  								<a href="<?php echo base_url() . 'administrator/level'; ?>" class="nav-link">
-  									<i class="far fa-circle nav-icon"></i>
-  									<p>Master Level User</p>
-  								</a>
-  							</li>
-  						</ul>
-  					</li>
-  				<?php } ?>
   			</ul>
   		</nav>
   		<!-- /.sidebar-menu -->

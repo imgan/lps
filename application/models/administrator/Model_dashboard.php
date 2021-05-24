@@ -26,7 +26,7 @@ class Model_dashboard extends CI_model
 
     public function checkLogin($nik, $password)
     {
-		$this->db->select('Nik,IsActive,Username,Level');
+		$this->db->select('Nik,IsActive,Username,Level,Menu,MenuGrup');
 		$this->db->where('Nik' , $nik);
 		$this->db->where('IsActive' , 1);
 		$this->db->where('password' , $password);

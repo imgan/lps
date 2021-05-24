@@ -66,21 +66,23 @@ class Dashboard extends CI_Controller
                     'Nik' => $value['Nik'],
                     'Username' => $value['Username'],
                     'Level' => $value['Level'],
+                    'Menus' => $value['Menu'],
+                    'Grup' => $value['MenuGrup'],
                 ];
             }
             $this->session->set_userdata($data);
             redirect('dashboard/index');
         } else {
-            $this->session->set_flashdata('category_error', 'Email atau password Password');
+            $this->session->set_flashdata('category_error', 'NIK atau password Password');
             redirect('dashboard/index');
         }
     }
 
     public function updatepassword()
     {
-        if ($this->session->userdata('email') != null && $this->session->userdata('name') != null) {
+        if ($this->session->userdata('Nik') != null && $this->session->userdata('Username') != null) {
             $data_id = array(
-                'email'  => $this->session->userdata('email')
+                'Nik'  => $this->session->userdata('Nik')
             );
             $password = md5($this->input->post('password'));
             $password = hash("sha512", $password);
@@ -92,9 +94,9 @@ class Dashboard extends CI_Controller
                 $data = array(
                     'password'  => $password,
                     'updatedAt' => date('Y-m-d H:i:s'),
-                    'updatedBy' => $this->session->userdata('name'),
+                    'updatedBy' => $this->session->userdata('Username'),
                 );
-                $action = $this->model_dashboard->update($data_id, $data, 'user');
+                $action = $this->model_dashboard->update($data_id, $data, 'users');
                 echo json_encode($action);
             } else {
                 echo json_encode(400);
